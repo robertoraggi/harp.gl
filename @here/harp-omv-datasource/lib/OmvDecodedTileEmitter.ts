@@ -228,7 +228,8 @@ export class OmvDecodedTileEmitter implements IOmvEmitter {
         private readonly m_gatherFeatureAttributes: boolean,
         private readonly m_skipShortLabels: boolean,
         private readonly m_enableElevationOverlay: boolean,
-        private readonly m_languages?: string[]
+        private readonly m_languages?: string[],
+        private readonly m_removeInternalWalls?: boolean
     ) {}
 
     get projection() {
@@ -1212,7 +1213,9 @@ export class OmvDecodedTileEmitter implements IOmvEmitter {
 
         const extrudedPolygonTechnique = technique as ExtrudedPolygonTechnique;
         const fillTechnique = technique as FillTechnique;
-        const boundaryWalls = extrudedPolygonTechnique.boundaryWalls !== false;
+        const boundaryWalls =
+            extrudedPolygonTechnique.boundaryWalls !== false &&
+            this.m_removeInternalWalls === false;
 
         const isFilled = isFillTechnique(technique);
         const texCoordType = this.getTextureCoordinateType(technique);
