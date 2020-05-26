@@ -12,8 +12,9 @@ import {
     isTextureBuffer,
     LineTechniqueParams,
     MarkerTechniqueParams,
+    OutlineTechniqueParams,
     PointTechniqueParams,
-    PolygonalTechniqueParams,
+    PolygonOffsetTechniqueParams,
     SegmentsTechniqueParams,
     ShaderTechniqueParams,
     SolidLineTechniqueParams,
@@ -221,11 +222,16 @@ export interface SegmentsTechnique extends MakeTechniqueAttrs<SegmentsTechniqueP
     name: "segments";
 }
 
-const polygonalTechniqueDescriptor: TechniqueDescriptor<PolygonalTechniqueParams> = {
+const polygonOffsetTechniqueParams: TechniqueDescriptor<PolygonOffsetTechniqueParams> = {
     attrScopes: {
         polygonOffset: AttrScope.TechniqueRendering,
         polygonOffsetFactor: AttrScope.TechniqueRendering,
-        polygonOffsetUnits: AttrScope.TechniqueRendering,
+        polygonOffsetUnits: AttrScope.TechniqueRendering
+    }
+};
+
+const outlineTechniqueDescriptor: TechniqueDescriptor<OutlineTechniqueParams> = {
+    attrScopes: {
         lineColor: AttrScope.TechniqueRendering,
         lineFadeFar: AttrScope.TechniqueRendering,
         lineFadeNear: AttrScope.TechniqueRendering
@@ -259,7 +265,8 @@ export interface SolidLineTechnique extends MakeTechniqueAttrs<SolidLineTechniqu
 
 export const solidLineTechniqueDescriptor = mergeTechniqueDescriptor<SolidLineTechnique>(
     baseTechniqueParamsDescriptor,
-    polygonalTechniqueDescriptor,
+    outlineTechniqueDescriptor,
+    polygonOffsetTechniqueParams,
     {
         attrScopes: {
             clipping: AttrScope.TechniqueGeometry,
@@ -312,7 +319,8 @@ export interface FillTechnique extends MakeTechniqueAttrs<FillTechniqueParams> {
 
 const fillTechniqueDescriptor = mergeTechniqueDescriptor<FillTechnique>(
     baseTechniqueParamsDescriptor,
-    polygonalTechniqueDescriptor,
+    outlineTechniqueDescriptor,
+    polygonOffsetTechniqueParams,
     {
         attrScopes: {
             color: AttrScope.TechniqueRendering,
@@ -380,6 +388,8 @@ export interface ExtrudedPolygonTechnique
 const extrudedPolygonTechniqueDescriptor = mergeTechniqueDescriptor<ExtrudedPolygonTechnique>(
     baseTechniqueParamsDescriptor,
     standardTechniqueDescriptor,
+    outlineTechniqueDescriptor,
+    polygonOffsetTechniqueParams,
     {
         attrScopes: {
             height: AttrScope.FeatureGeometry,
@@ -397,10 +407,7 @@ const extrudedPolygonTechniqueDescriptor = mergeTechniqueDescriptor<ExtrudedPoly
             opacity: AttrScope.TechniqueRendering,
             transparent: AttrScope.TechniqueRendering,
             lineWidth: AttrScope.TechniqueRendering,
-            lineFadeNear: AttrScope.TechniqueRendering,
-            lineFadeFar: AttrScope.TechniqueRendering,
-            lineColorMix: AttrScope.TechniqueGeometry,
-            lineColor: AttrScope.TechniqueRendering
+            lineColorMix: AttrScope.TechniqueGeometry
         }
     }
 );

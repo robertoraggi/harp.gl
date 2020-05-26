@@ -39,7 +39,9 @@
             "fadeNear": 0.9,
             "fadeFar": 1,
             "lineFadeNear": -0.75,
-            "lineFadeFar": 1
+            "lineFadeFar": 1,
+            "polygonOffset": true,
+            "polygonOffsetUnit": -1
         },
         "countryBorderLineWidth": [
             "interpolate",

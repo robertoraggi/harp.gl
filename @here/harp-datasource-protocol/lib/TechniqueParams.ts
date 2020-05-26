@@ -841,9 +841,9 @@ export interface SegmentsTechniqueParams extends BaseTechniqueParams {
 }
 
 /**
- * Declares a a geometry as a polygon.
+ * Parameters to configure depth offsets using the PolygonOffset functionality in three.js
  */
-export interface PolygonalTechniqueParams {
+export interface PolygonOffsetTechniqueParams {
     /**
      * Whether to use polygon offset. Default is false. This corresponds to the
      * GL_POLYGON_OFFSET_FILL WebGL feature.
@@ -874,7 +874,12 @@ export interface PolygonalTechniqueParams {
      * Sets the polygon offset units. Default is 0.
      */
     polygonOffsetUnits?: DynamicProperty<number>;
+}
 
+/**
+ * Parameters to configure an outline
+ */
+export interface OutlineTechniqueParams extends PolygonOffsetTechniqueParams {
     /**
      * Sets the polygon outline color.
      * @format color-hex
@@ -899,7 +904,7 @@ export interface PolygonalTechniqueParams {
  */
 export interface BasicExtrudedLineTechniqueParams
     extends BaseTechniqueParams,
-        PolygonalTechniqueParams {
+        OutlineTechniqueParams {
     /**
      * A value determining the shading technique. Valid values are "Basic" and "Standard". Default
      * is "Basic".
@@ -946,7 +951,7 @@ export interface BasicExtrudedLineTechniqueParams
  */
 export interface StandardExtrudedLineTechniqueParams
     extends StandardTechniqueParams,
-        PolygonalTechniqueParams {
+        OutlineTechniqueParams {
     /**
      * A value determining the shading technique. Valid values are `"basic"` and `"standard"`.
      * Default is `"basic"`.
@@ -969,7 +974,7 @@ export interface StandardExtrudedLineTechniqueParams
 /**
  * Declares a a geometry as a solid line.
  */
-export interface SolidLineTechniqueParams extends BaseTechniqueParams, PolygonalTechniqueParams {
+export interface SolidLineTechniqueParams extends BaseTechniqueParams, OutlineTechniqueParams {
     /**
      * Color of a line in hexadecimal or CSS-style notation, for example: `"#e4e9ec"`, `"#fff"`,
      * `"rgb(255, 0, 0)"`, or `"hsl(35, 11%, 88%)"`.
@@ -1077,7 +1082,7 @@ export interface SolidLineTechniqueParams extends BaseTechniqueParams, Polygonal
 /**
  * Technique used to draw filled polygons.
  */
-export interface FillTechniqueParams extends BaseTechniqueParams, PolygonalTechniqueParams {
+export interface FillTechniqueParams extends BaseTechniqueParams, OutlineTechniqueParams {
     /**
      * Fill color in hexadecimal or CSS-style notation, for example: `"#e4e9ec"`, `"#fff"`,
      * `"rgb(255, 0, 0)"`, or `"hsl(35, 11%, 88%)"`.
@@ -1107,7 +1112,9 @@ export interface FillTechniqueParams extends BaseTechniqueParams, PolygonalTechn
 /**
  * Technique used to draw a geometry as an extruded polygon, for example extruded buildings.
  */
-export interface ExtrudedPolygonTechniqueParams extends StandardTechniqueParams {
+export interface ExtrudedPolygonTechniqueParams
+    extends StandardTechniqueParams,
+        PolygonOffsetTechniqueParams {
     /**
      * Renders the footprint lines if set to 'true'.
      */
